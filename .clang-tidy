@@ -1,0 +1,43 @@
+---
+Checks: >
+  -*,
+  bugprone-*,
+  clang-analyzer-*,
+  performance-*,
+  portability-*,
+  readability-container-*,
+  readability-identifier-naming,
+  readability-make-member-function-const,
+  readability-redundant-*
+WarningsAsErrors: ''
+HeaderFilterRegex: '^sources/core/(src|include|tests)/'
+CheckOptions:
+  readability-identifier-naming.NamespaceCase: CamelCase # PascalCase
+
+  readability-identifier-naming.ClassCase: CamelCase # PascalCase
+  readability-identifier-naming.StructCase: CamelCase # PascalCase
+  readability-identifier-naming.EnumCase: CamelCase # PascalCase
+  readability-identifier-naming.TypedefCase: CamelCase # PascalCase
+  readability-identifier-naming.TypeTemplateParameterCase: CamelCase # PascalCase
+
+  readability-identifier-naming.EnumConstantCase: CamelCase # PascalCase
+
+  readability-identifier-naming.FunctionCase: CamelCase # PascalCase
+  readability-identifier-naming.MethodCase: CamelCase # PascalCase
+
+  readability-identifier-naming.VariableCase: camelBack # camelCase
+
+  readability-identifier-naming.ParameterCase: camelBack # camelCase
+
+  readability-identifier-naming.MemberCase: camelBack # camelCase
+  readability-identifier-naming.PrivateMemberCase: camelBack # camelCase
+  readability-identifier-naming.ProtectedMemberCase: camelBack # camelCase
+  readability-identifier-naming.PublicMemberCase: camelBack # camelCase
+
+  readability-identifier-naming.PrivateMemberPrefix: '' # no prefix
+  readability-identifier-naming.PrivateMemberSuffix: '' # no suffix
+
+  readability-identifier-naming.AbstractClassCase: CamelCase # PascalCase
+  readability-identifier-naming.AbstractClassPrefix: I # I prefix
+
+  readability-identifier-naming.MacroDefinitionCase: UPPER_CASE # UPPER_CASE
