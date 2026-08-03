@@ -30,3 +30,7 @@ docker compose up --build
 
 C++ code follows the Microsoft clang-format style. Pull requests to `main`
 must pass the repository quality gate.
+
+## License
+
+Militantyx is licensed under the [Apache License 2.0](LICENSE).
