@@ -2,7 +2,8 @@ services:
   dpi-core:
     build:
       context: .
-      dockerfile: sources/core/Dockerfile
+      dockerfile: ./sources/core/Dockerfile
+    pull_policy: build
     image: militantyx-core:local
     depends_on:
       clickhouse:
@@ -15,7 +16,7 @@ services:
       - ./sources/pcaps:/app/pcaps:ro
 
   clickhouse:
-    image: clickhouse/clickhouse-server:lts
+    image: clickhouse/clickhouse-server:26.4
     environment:
       CLICKHOUSE_DB: militantyx
       CLICKHOUSE_USER: militantyx
