@@ -32,9 +32,21 @@ endif()
 include(CTest)
 
 if(BUILD_TESTING)
+    find_package(Catch2 3 CONFIG REQUIRED)
+    include(Catch)
+
     add_executable(logger_smoke_test
         sources/core/tests/logging/logger_smoke_test.cpp
     )
     target_link_libraries(logger_smoke_test PRIVATE Militantyx::Logger)
     add_test(NAME logger_smoke_test COMMAND logger_smoke_test)
+
+    add_executable(pcap_file_source_test
+        sources/core/tests/capture/pcap_file_source_test.cpp
+    )
+    target_link_libraries(pcap_file_source_test
+        PRIVATE
+            Catch2::Catch2WithMain
+    )
+    catch_discover_tests(pcap_file_source_test)
 endif()
