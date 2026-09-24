@@ -1,19 +1,21 @@
 # Dashboard
 
-This directory is reserved for the Militantyx web dashboard.
+This directory is reserved for the Militantyx web dashboard, using React,
+TypeScript, and Vite. Historical data will be loaded through the Drogon
+REST API, with persisted updates delivered through WebSocket.
 
-The dashboard will be implemented with React, TypeScript, and Vite. It will
-load historical traffic data through the Drogon REST API and receive new flow
-and alert events through WebSocket.
+Planned views:
 
-Planned contents:
+- traffic summary and active/completed flows;
+- alerts with detector category, evidence, and rule/ML source;
+- anomaly score and analysis status, including unavailable or skipped analysis;
+- sensor health: capture losses, queue occupancy, processing and export failures;
+- filters and connection status, with REST resynchronization after reconnect.
 
-- React and TypeScript application;
-- traffic summary and time-series charts;
-- network-flow and anomaly tables;
-- filters and connection-status indicators;
-- frontend tests and static analysis;
-- Dockerfile for the dashboard.
+The interface must distinguish observed protocol usage, policy violations,
+and suspected C2 activity. It must not present an anomaly score as an attack
+probability or a pending/failed analysis as a benign verdict.
 
-The component has not been implemented yet and is therefore not included as a
-service in Docker Compose.
+The component has not been implemented and is not included in Compose yet.
+See tasks T32–T34 and T41 in the
+[implementation plan](../../docs/TASK_BREAKDOWN.md).

@@ -1,24 +1,34 @@
 # Militantyx
 
-Militantyx is a high-performance network traffic inspection system organized
-as a monorepository. It is designed to combine a C++23 flow-based DPI core,
-machine-learning anomaly detection, ClickHouse storage, and real-time web
-visualization.
+Militantyx is a C++23 network traffic inspection project organized as a
+monorepository. It is being developed as a passive sensor for detecting signs
+of TLS command-and-control communication, unauthorized DoH/DoT usage, and
+selected unauthorized VPN protocols in a corporate network.
 
-The project is currently in its initial development stage. The MVP scope,
-architecture, technology stack, and implementation plan are available in the
-[`docs`](docs/) directory.
+The planned pipeline combines flow tracking, selective DPI, policy rules,
+asynchronous machine-learning analysis, ClickHouse storage, and a real-time
+web dashboard. Traffic is not decrypted or blocked. Detection quality and
+processing performance will be evaluated experimentally.
 
-Project components are organized under [`sources`](sources/):
+The project is at an early implementation stage: logging and build tooling
+are present; packet capture files and a placeholder test have been added.
+The detection pipeline, ML service, and dashboard are not implemented yet.
 
-- [`core`](sources/core/) contains the C++ DPI and backend code;
-- [`ml`](sources/ml/) is reserved for the Python anomaly-detection service;
-- [`dashboard`](sources/dashboard/) is reserved for the React web interface.
+- [Scope and acceptance criteria](docs/MVP.md)
+- [Architecture and decisions](docs/ARCHITECTURE_AND_DECISIONS.md)
+- [Implementation tasks](docs/TASK_BREAKDOWN.md)
+- [Technology choices](docs/STACK_DECISIONS.md)
 
-Development rules and local quality checks are described in
-[`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md).
-The target and development environments are documented in
-[`docs/ENVIRONMENT.md`](docs/ENVIRONMENT.md).
+Project components are organized under [sources](sources/):
+
+- [core](sources/core/) contains the C++ sensor and backend;
+- [ml](sources/ml/) is reserved for the Python anomaly-detection service;
+- [dashboard](sources/dashboard/) is reserved for the React web interface.
+
+Development rules and quality checks are described in
+[docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
+Target and development environments are documented in
+[docs/ENVIRONMENT.md](docs/ENVIRONMENT.md).
 
 ## Development
 
@@ -28,8 +38,13 @@ scripts/verify.sh
 docker compose up --build
 ```
 
-C++ code follows the Microsoft clang-format style. Pull requests to `main`
+C++ code follows the Microsoft clang-format style. Pull requests to main
 must pass the repository quality gate.
+
+The current Compose file is an infrastructure scaffold. The core image runs
+the logger smoke test rather than a traffic sensor. Its build dependencies
+still need to be aligned with the Catch2 requirement in CMake; see T09 in
+the implementation plan.
 
 ## License
 
