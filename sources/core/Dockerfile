@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     build-essential cmake \
-    libspdlog-dev ninja-build && \
+    libspdlog-dev catch2 ninja-build && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace
@@ -16,7 +16,7 @@ COPY sources/core/ ./sources/core/
 RUN cmake -S . -B build -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_TESTING=ON && \
-    cmake --build build --target logger_smoke_test --parallel && \
+    cmake --build build --parallel && \
     ctest --test-dir build --output-on-failure
 
 FROM ubuntu:24.04 AS runtime

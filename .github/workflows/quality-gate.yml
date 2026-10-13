@@ -17,7 +17,7 @@ concurrency:
 jobs:
   quality-gate:
     name: Format, build and test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
 
     steps:
@@ -37,7 +37,7 @@ jobs:
       - name: Install system tools
         run: |
           sudo apt-get update
-          sudo apt-get install --yes clang-format clang-tidy cmake ninja-build shellcheck libspdlog-dev
+          sudo apt-get install --yes clang-format clang-tidy cmake ninja-build shellcheck libspdlog-dev catch2
 
       - name: Install Python dependencies
         if: ${{ hashFiles('sources/ml/pyproject.toml') != '' }}

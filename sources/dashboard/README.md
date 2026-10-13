@@ -1,21 +1,13 @@
-# Dashboard
+# Интерфейс анализа
 
-This directory is reserved for the Militantyx web dashboard, using React,
-TypeScript, and Vite. Historical data will be loaded through the Drogon
-REST API, with persisted updates delivered through WebSocket.
+Здесь будет интерфейс на React/TypeScript/Vite. Пока есть только README.
+Первый офлайн-эксперимент проводится без интерфейса.
 
-Planned views:
+Планируемый экран показывает аномальные окна рабочих станций, связанные
+потоки и признаки, вызвавшие срабатывание. Оценка модели отображается вместе
+с порогом и версией. Для метки C2 нужны признаки этого сценария. Одной оценки аномальности недостаточно.
 
-- traffic summary and active/completed flows;
-- alerts with detector category, evidence, and rule/ML source;
-- anomaly score and analysis status, including unavailable or skipped analysis;
-- sensor health: capture losses, queue occupancy, processing and export failures;
-- filters and connection status, with REST resynchronization after reconnect.
+Пропуски, ошибки оценки и неполные данные должны быть видны оператору.
+ClickHouse, REST API Drogon и WebSocket подключаются после проверки метода.
 
-The interface must distinguish observed protocol usage, policy violations,
-and suspected C2 activity. It must not present an anomaly score as an attack
-probability or a pending/failed analysis as a benign verdict.
-
-The component has not been implemented and is not included in Compose yet.
-See tasks T32–T34 and T41 in the
-[implementation plan](../../docs/TASK_BREAKDOWN.md).
+См. [архитектуру](../../docs/ARCHITECTURE_AND_DECISIONS.md).
