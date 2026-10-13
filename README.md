@@ -89,12 +89,6 @@ scripts/verify.sh
 [NetMasquerade](https://github.com/09nat/NetMasquerade) - устойчивости
 детекторов к изменениям трафика. Эти проекты не интегрированы в Militantyx.
 
-## Репозиторий
-
-Текущий адрес: https://github.com/criizx/Militantyx.
-Для сопровождения ВКР требуется репозиторий в «Сфера Код».
-Адрес пока не указан. Для «Сфера Код» понадобится отдельная настройка CI.
-
 ## Лицензия
 
 [Apache License 2.0](LICENSE).
