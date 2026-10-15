@@ -1,21 +1,21 @@
 # AGENTS.md
 
-## Что это за проект
+## Project overview
 
-Militantyx — исследовательский прототип для обнаружения ранее неизвестной вредоносной активности по структуре сетевых взаимодействий рабочих станций.
+Militantyx is a research prototype for detecting previously unknown malicious activity based on the structure of network interactions between workstations.
 
-Основная идея проекта:
-- принимать PCAP/сетевой захват;
-- строить двунаправленные потоки;
-- агрегировать их в временные окна и граф взаимодействий;
-- вычислять признаки структуры и обмена;
-- оценивать аномальность с помощью офлайн-обучения и проверки.
+The project goal is to:
+- ingest PCAP/network captures;
+- build bidirectional flows;
+- aggregate flows into time windows and interaction graphs;
+- compute structural and interaction-based features;
+- assess anomaly likelihood using offline training and validation.
 
-Важно: проект на ранней стадии. В текущем состоянии реализованы в основном сборка, инструменты качества и базовый каркас, а не полноценный детектор.
+Important: this project is still in an early research stage. At the moment, the repository mainly contains the build system, tooling, quality checks, and the skeleton of the architecture. The full detector is not yet implemented.
 
-## Источники истины
+## Source of truth
 
-Если нужно понять архитектуру, ограничения, план экспериментов или правила разработки, сначала смотреть:
+If you need to understand the architecture, constraints, experimental plan, or development workflow, start with:
 - `README.md`
 - `docs/ARCHITECTURE_AND_DECISIONS.md`
 - `docs/RESEARCH_PROTOCOL.md`
@@ -24,67 +24,85 @@ Militantyx — исследовательский прототип для обн
 - `docs/ENVIRONMENT.md`
 - `docs/CONTRIBUTING.md`
 
-Эти документы важнее, чем импровизированные предположения.
+These files are more authoritative than assumptions or ad hoc implementation guesses.
 
-## Структура репозитория
+## Repository structure
 
-- `sources/core/` — C++23 ядро проекта. Сюда относятся логирование, PCAP/потоки/граф, будущие обработчики и экспорт признаков.
-- `sources/ml/` — Python-модуль для обучения, валидации, сравнения моделей и выбора порога.
-- `sources/dashboard/` — интерфейс анализа для аномальных окон и связанных потоков.
-- `docs/` — техническая и исследовательская документация, правила экспериментов и архитектура.
-- `scripts/` — локальные проверки, форматирование, хуки и скрипты сборки/проверки.
-- `.github/workflows/` — CI для проверки сборки и качества проекта.
+- `sources/core/` — C++23 core implementation. This is where logging, PCAP handling, flow processing, graph logic, and future feature extraction belong.
+- `sources/ml/` — Python module for training, evaluation, model comparison, and threshold selection.
+- `sources/dashboard/` — analysis interface for anomalous windows and related flows.
+- `docs/` — technical and research documentation, methodology, architecture, and experiments.
+- `scripts/` — local validation scripts, formatting tools, hooks, and build checks.
+- `.github/workflows/` — CI workflow for build and quality validation.
 
-## Текущее состояние проекта
+## Current project status
 
-На данный момент:
-- есть CMake-проект и C++ код для базового логирования;
-- есть smoke-тесты и Catch2 3;
-- есть Git-хуки и сценарии проверки;
-- есть GitHub Actions workflow;
-- PCAP-разбор и детектор ещё не реализованы как полноценная функциональность.
+The repository currently includes:
+- a CMake-based project;
+- C++ logging and smoke tests;
+- Catch2 3 integration and CTest;
+- Git hooks and validation scripts;
+- GitHub Actions workflows;
+- a project skeleton for future core logic.
 
-Нельзя утверждать, что проект уже реализует обнаружение вредоносности. Работа должна соответствовать этому статусу.
+What is not yet complete:
+- final PCAP parser and packet processing pipeline;
+- graph-based detector implementation;
+- ML training and evaluation pipeline;
+- dashboard integration and runtime workflow.
 
-## Правила разработки
+Do not describe the project as if it already fully detects malicious behavior. The project is still in a prototyping and research phase.
 
-### 1) Не переоценивайте готовность
+## Development rules
 
-При изменении кода избегайте заявлений вроде “уже работает как детектор”, “сделан анализ трафика” или “готова модель”. Проект пока исследовательский и офлайн-подготовительный.
+### 1) Do not overstate readiness
 
-### 2) Preserve architecture intent
+Avoid claims like:
+- “the detector is working”;
+- “the model is ready”; or
+- “traffic analysis is fully implemented”.
 
-Если нужно добавить функциональность:
-- сначала проверять, соответствует ли она описанному офлайн-архитектурному потоку;
-- сохранять разделение ответственности между `core`, `ml`, `dashboard`;
-- не смешивать пайплайн в одной точке без объяснения;
-- избегать необоснованных интеграций с внешними сервисами до завершения офлайн-эксперимента.
+The project is a research prototype and should be treated as such.
 
-### 3) Не усложнять ранний этап
+### 2) Preserve the intended architecture
 
-Пока нет полной реализации:
-- не добавлять сложные внешние зависимости без необходимости;
-- не делать “продовый” API, если задача ещё в исследовательском прототипе;
-- держать логи и диагностику понятными и проверяемыми.
+When adding functionality:
+- respect the separation between `core`, `ml`, and `dashboard`;
+- keep the data flow consistent with the documented pipeline;
+- avoid mixing concerns across components unless explicitly justified;
+- do not add production-style integrations before the offline prototype is validated.
 
-### 4) Документация является частью кода
+### 3) Keep early-stage implementation simple
 
-Если вы меняете архитектуру, форматы данных, поля признаков, правила агрегации, запуск, окружение или эксп. протокол:
-- обновлять соответствующий файл в `docs/`;
-- обновлять `README.md`, если изменяется общий контекст проекта;
-- корректировать локальные README в `sources/*`, если меняется идея и обязанности подсистем.
+Because the project is still in early development:
+- avoid unnecessary external dependencies;
+- avoid premature “production APIs”;
+- keep logging and diagnostics readable and testable;
+- prefer incremental, verifiable changes over large speculative rewrites.
 
-### 5) Не нарушать научную корректность
+### 4) Documentation is part of the code
 
-В проекте есть важные принципы:
-- данные train/test должны быть корректно разделены;
-- сценарии C2/unknown malicious traffic не должны попадать в обучение и настройку, если они используются как тестовые;
-- метки шума, отклонения в данных и ограничения наблюдения должны учитываться отдельно;
-- содержимое пакетов не является обязательной частью базового ML-формата.
+If you change:
+- architecture,
+- feature schemas,
+- data formats,
+- experiment protocol,
+- environment requirements,
+- development workflow,
 
-## Сборка и проверки
+then update the corresponding docs as well.
 
-Основные команды:
+### 5) Respect scientific correctness
+
+The project has important research constraints:
+- train/test splits must be handled correctly;
+- unknown malicious scenarios used for testing must not leak into training and tuning;
+- label noise and observation limitations must be treated explicitly;
+- packet contents and decryption are not required for the initial feature set.
+
+## Build and validation
+
+Common build commands:
 
 ```bash
 cmake -S . -B .build/checks -G Ninja -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON
@@ -93,7 +111,7 @@ ctest --test-dir .build/checks --output-on-failure
 scripts/verify.sh
 ```
 
-Дополнительно:
+Additional checks:
 
 ```bash
 scripts/format.sh
@@ -102,59 +120,59 @@ scripts/run-tests.sh
 scripts/install-hooks.sh
 ```
 
-Требования проекта:
+Required tooling:
 - CMake 3.25+
-- C++23 compiler
+- a C++23 compiler
 - spdlog
 - Catch2 3
 - clang-format
 - clang-tidy
 - ShellCheck
 
-## C++ и тесты
+## C++ core behavior
 
-Для `sources/core`:
-- использовать C++23;
-- придерживаться общепринятого стиля проекта и конфигурации clang-format;
-- не добавлять “псевдокод в продакшн” без тестового сценария;
-- сохранять разделение на логирование, парсинг, потоки, граф и признаки;
-- новые тесты добавлять в `sources/core/tests/`.
+For `sources/core/`:
+- keep code in C++23;
+- respect the existing clang-format configuration;
+- do not hide experimental logic behind false claims of completion;
+- keep responsibilities separated between logging, parsing, flow handling, graph construction, and feature extraction;
+- add tests in `sources/core/tests/` for any new logic.
 
-## Python и ML
+## Python and ML expectations
 
-Для `sources/ml/`:
-- держать логи и версии признаков;
-- фиксировать схемы признаков и параметров окна;
-- сохранять модель вместе с метаданными и конфигурацией;
-- явно документировать, какие данные использованы для train/validation/test.
+For `sources/ml/`:
+- keep feature definitions and versions explicit;
+- track model metadata and configuration;
+- maintain a clear distinction between train, validation, and test data;
+- document assumptions around threshold selection and anomaly scoring.
 
-## Dashboard
+## Dashboard expectations
 
-Для `sources/dashboard/`:
-- интерфейс должен быть под офлайн-эксперимент, а не под “live production”;
-- показывать аномальные окна, связанные потоки и обоснование решения;
-- не скрывать пропуски, ошибки оценки и неполные данные.
+For `sources/dashboard/`:
+- prioritize offline-analysis workflows;
+- expose anomalous windows and associated flows clearly;
+- make missing data, evaluation errors, and incomplete observations visible instead of hiding them.
 
-## Коммиты и вопросы архитектуры
+## Commit and architecture review guidance
 
-Если изменение затрагивает:
-- потерю контрактов между компонентами,
-- форматы данных,
-- pipeline через `core → ml → dashboard`,
-- архитектурные решения в `docs/ARCHITECTURE_AND_DECISIONS.md`,
+If a change affects:
+- the interface between components,
+- data contracts,
+- the `core → ml → dashboard` pipeline,
+- descriptions in `docs/ARCHITECTURE_AND_DECISIONS.md`,
 
-то лучше сначала обновить docs, а затем код.
+then update both the implementation and the documentation together.
 
-## Ошибки, которые стоит избегать
+## Anti-patterns to avoid
 
-- добавление модели/детектора без описания признаков и порога;
-- изменение научного протокола без обновления документации;
-- псевдо-реализация на уровне “stub” без явного статуса;
-- смешивание логики обработки пакетов и ML-обучения;
-- большие изменения без привязки к `docs/` и `README.md`.
+- adding a pseudo-detector without describing the feature set and thresholding logic;
+- changing the research protocol without updating the relevant documents;
+- mixing packet-analysis logic with ML training logic in a single place without reason;
+- pretending that a stub implementation is production-ready;
+- making large changes without aligning them to the architecture docs.
 
-## Короткое резюме
+## Short summary
 
-Этот репозиторий — не просто C++ проект, а исследовательская платформа с документированной архитектурой. Правильная работа в нём — это не только собрать код, но и сохранять ясность научной и технической модели данных.
+This repository is not merely a C++ project. It is a research-oriented platform with a documented architecture and a defined experimental direction. Correct work here means keeping the code, docs, and scientific assumptions aligned, especially while the architecture is still evolving.
 
-Если нужно быстро понять системный контекст, начинать с `README.md`, затем `docs/` и только потом код в `sources/`.
+If you need to understand the project quickly, start with `README.md`, then read the documents in `docs/`, and only then inspect the implementation in `sources/`.
